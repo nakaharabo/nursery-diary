@@ -18,6 +18,7 @@
 - has_many :rooms
 - has_many :comments
 - has_many :messages
+- has_many : attendances
 
 ## rooms テーブル
 
@@ -59,7 +60,7 @@ belongs_to :user
 | ----------- | ---------- | ---------------------------- |
 | text        | text       | null: false                  |
 | user        | references | foreign_key: true            |
-| item        | references | foreign_key: true            |
+| message     | references | foreign_key: true            |
 
 ### Association
 
@@ -67,12 +68,12 @@ belongs_to :user
 - belongs_to :user
 
 
-## attendance テーブル
+## attendances テーブル
 
-| Column | Type       | Options            |
-| ------ | ---------- | ------------------ |
-| user   | references | foreign_key: true  |
-| item   | references | foreign_key: true  |
+| Column     | Type       | Options      |
+| ---------- | ---------- | ------------ |
+| attendance | integer    | null: false  |
+| text       | string     |              |
 
 ### Association
 
