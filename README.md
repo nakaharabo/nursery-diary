@@ -4,53 +4,55 @@
 
 | Column                  | Type   | Options                  |
 | ----------------------- | ------ | ------------------------ |
-| child_nickname          | string | null: false              |
+| nickname                | string | null: false              |
 | encrypted_password      | string | null: false              |
 | email                   | string | null: false, unique:true |
 | last_name               | string | null: false              |
 | first_name              | string | null: false              |
 | last_name_kana          | string | null: false              |
 | first_name_kana         | string | null: false              |
-| parent_name             | string | null: false              |
+| birth_day               | date   | null: false              |
 
 ### Association
 
-- has_many :rooms
+- has_many :items
 - has_many :comments
-- has_many :messages
-- has_many : attendances
+- has_many :histories
 
-## rooms テーブル
+## items テーブル
 
-| Column   | Type   | Options     |
-| -------  | -----  | ----------  |
-| name     | string | null: false |
+| Column           | Type       | Options           |
+| ---------------- | -----------| ----------------- |
+| name             | string     | null: false       |
+| description      | text       | null: false       |
+| category_id      | integer    | null: false       |
+| state_id         | integer    | null: false       |
+| delivery_fee_id  | integer    | null: false       |
+| shipment_area_id | integer    | null: false       |
+| shipment_day_id  | integer    | null: false       |
+| price            | integer    | null: false       |
+| history          | references | foreign_key: true |
+### Association
 
-###Association
+- belongs_to :user
+- has_many :comments
+- has_one :history
 
-- has_many :room_users
-- has_many :rooms, through: room_users
-- has_many :message
 
-## room_users テーブル
+## orders テーブル
 
-| Column   | Type       | Options                        |
-| -------- | ---------- | ------------------------------ |
-| user     | references | null: false, foreign_key: true |
-| room     | references | null: false, foreign_key: true |
+| Column           | Type       | Options            |
+| ---------------- | ---------- | ------------------ |
+| post_number      | string     | null: false        |
+| shipment_area_id | integer    | null: false        |
+| city             | string     | null: false        |
+| address          | string     | null: false        |
+| building_name    | string     |                    |
+| phone_number     | string     | null: false        |
+| history          | references | foreign_key: true  |
 
-###Association
-
-belongs_to :room
-belongs_to :user 
-
-## messages テーブル
-
-| Column   | Type       | Options                        |
-| -------- | ---------- | ------------------------------ |
-| content  | string     |                                |
-| user     | references | null: false, foreign_key: true |
-| room     | references | null: false, foreign_key: true |
+### Association
+- belongs_to :history
 
 
 
@@ -60,22 +62,23 @@ belongs_to :user
 | ----------- | ---------- | ---------------------------- |
 | text        | text       | null: false                  |
 | user        | references | foreign_key: true            |
-| message     | references | foreign_key: true            |
+| item        | references | foreign_key: true            |
 
 ### Association
 
-- belongs_to :message
+- belongs_to :item
 - belongs_to :user
 
 
-## attendances テーブル
+## history テーブル
 
-| Column     | Type       | Options      |
-| ---------- | ---------- | ------------ |
-| attendance | integer    | null: false  |
-| text       | string     |              |
+| Column | Type       | Options            |
+| ------ | ---------- | ------------------ |
+| user   | references | foreign_key: true  |
+| item   | references | foreign_key: true  |
 
 ### Association
 
-
+- belongs_to :item
 - belongs_to :user
+- has_one :order
